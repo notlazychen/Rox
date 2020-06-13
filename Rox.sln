@@ -5,6 +5,10 @@ VisualStudioVersion = 16.0.30128.74
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rox", "src\Rox\Rox.csproj", "{33336F25-CCCA-4AB3-8D95-819793719DE4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rox.Sample", "src\Rox.Sample\Rox.Sample.csproj", "{0859E8FB-8058-4837-BF45-52E3922F8FB2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rox.WebSample", "src\Rox.WebSample\Rox.WebSample.csproj", "{669D94A9-0014-4806-AED8-689ED876A45C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{33336F25-CCCA-4AB3-8D95-819793719DE4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{33336F25-CCCA-4AB3-8D95-819793719DE4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{33336F25-CCCA-4AB3-8D95-819793719DE4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0859E8FB-8058-4837-BF45-52E3922F8FB2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0859E8FB-8058-4837-BF45-52E3922F8FB2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0859E8FB-8058-4837-BF45-52E3922F8FB2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0859E8FB-8058-4837-BF45-52E3922F8FB2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{669D94A9-0014-4806-AED8-689ED876A45C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{669D94A9-0014-4806-AED8-689ED876A45C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{669D94A9-0014-4806-AED8-689ED876A45C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{669D94A9-0014-4806-AED8-689ED876A45C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

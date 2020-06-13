@@ -1,4 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Configuration;
+using Microsoft.VisualBasic;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
@@ -9,85 +11,125 @@ namespace Rox
 {
     public abstract class ModuleBase
     {
-        public virtual Task ConfigureServices(AppContext appContext, CancellationToken cancellationToken)
+        public virtual Task ConfigureServices(ServicesConfigureContext context, CancellationToken cancellationToken)
         {
             return Task.CompletedTask;
         }
 
-        public virtual Task OnApplicationInitialization(AppContext appContext, CancellationToken cancellationToken)
+        public virtual Task OnApplicationInitialization(ApplicationInitializationContext context, CancellationToken cancellationToken)
         {
             return Task.CompletedTask;
         }
 
-        public virtual Task PreApplicationInitialization(AppContext appContext, CancellationToken cancellationToken)
+        public virtual Task PreApplicationInitialization(ApplicationInitializationContext context, CancellationToken cancellationToken)
         {
             return Task.CompletedTask;
         }
 
-        public virtual Task OnStopping(AppContext appContext, CancellationToken cancellationToken)
+        public virtual Task OnStopping(CancellationToken cancellationToken)
         {
             return Task.CompletedTask;
         }
     }
 
-    public class ModuleCenter
+    public class Application
     {
         private readonly Dictionary<string, ModuleBase> _modules = new Dictionary<string, ModuleBase>();
-        private readonly AppContext _appContext;
+        private readonly IServiceCollection _services; 
+        private readonly IConfiguration _configuration;
 
-        public ModuleCenter(IServiceCollection services)
+        public Application(IServiceCollection services, IConfiguration configuration)
         {
-            _appContext = new AppContext(services);
+            _services = services;
+            _configuration = configuration;
         }
 
-        public async Task Start(CancellationToken cancellationToken)
+        public void Start(CancellationToken cancellationToken)
         {
             var tasks = new List<Task>(_modules.Count);
-
-            foreach (var module in _modules.Values)
+            using (var provider = _services.BuildServiceProvider())
             {
-                tasks.Add(module.PreApplicationInitialization(_appContext, cancellationToken));
-            }
-            await Task.WhenAll(tasks);
+                var context = new ApplicationInitializationContext(provider);
+                foreach (var module in _modules.Values)
+                {
+                    tasks.Add(module.PreApplicationInitialization(context, cancellationToken));
+                }
+                Task.WhenAll(tasks).Wait();
 
-            tasks.Clear();
-            foreach (var module in _modules.Values)
-            {
-                tasks.Add(module.OnApplicationInitialization(_appContext, cancellationToken));
-            }
+                tasks.Clear();
+                foreach (var module in _modules.Values)
+                {
+                    tasks.Add(module.OnApplicationInitialization(context, cancellationToken));
+                }
 
-            await Task.WhenAll(tasks);
+                Task.WhenAll(tasks).Wait();
+            }
         }
 
-        public Task Configure(CancellationToken cancellationToken)
+        public void Init<TModule>(CancellationToken cancellationToken) where TModule : ModuleBase, new()
         {
-            //todo: 反射注册modules
+            //反射注册modules
+            var type = typeof(TModule);
+            _modules.Add(type.FullName, new TModule());
+            FindDependencies(type);
 
-            var tasks = new List<Task>(_modules.Count);
-            foreach (var module in _modules.Values)
-            {
-                tasks.Add(module.ConfigureServices(_appContext, cancellationToken));
-            }
-            return Task.WhenAll(tasks);
-        }
-
-        public Task Stop(CancellationToken cancellationToken)
-        {
             var tasks = new List<Task>(_modules.Count);
             foreach (var module in _modules.Values)
             {
-                tasks.Add(module.OnStopping(_appContext, cancellationToken));
+                tasks.Add(module.ConfigureServices(new ServicesConfigureContext(_services, _configuration), cancellationToken));
             }
-            return Task.WhenAll(tasks);
+            Task.WhenAll(tasks).Wait();
+        }
+
+        public void Stop(CancellationToken cancellationToken)
+        {
+            var tasks = new List<Task>(_modules.Count);
+            foreach (var module in _modules.Values)
+            {
+                tasks.Add(module.OnStopping(cancellationToken));
+            }
+            Task.WhenAll(tasks).Wait();
+        }
+
+        private void FindDependencies(Type type)
+        {
+            //if (_modules.ContainsKey(type.FullName))
+            {
+                //todo: 其实这里判断是不对的
+                //throw new InvalidOperationException($"Type {type.FullName} can't depends on type {type.FullName}, becasuse it's in dead cycle!");
+            }
+            var attrs = type.GetCustomAttributes<DependencyAttribute>();
+            foreach (var attr in attrs)
+            {
+                foreach (var t in attr.DenpendsOnTypes)
+                {
+                    if (_modules.ContainsKey(t.FullName))
+                    {
+                        _modules.Add(t.FullName, Activator.CreateInstance(t) as ModuleBase);
+                        FindDependencies(t);
+                    }
+                }
+            }
         }
     }
 
-    public class AppContext
+    public class ApplicationInitializationContext
     {
-        private readonly IServiceCollection _services;
-        public AppContext(IServiceCollection services)
+        public IServiceProvider ServiceProvider { get; private set; }
+        public ApplicationInitializationContext(IServiceProvider serviceProvider)
         {
-            _services = services;
+            ServiceProvider = serviceProvider;
+        }
+    }
+
+    public class ServicesConfigureContext
+    {
+        public IServiceCollection Services { get; private set; }
+        public IConfiguration Configuration { get; private set; }
+        public ServicesConfigureContext(IServiceCollection services, IConfiguration configuration)
+        {
+            Services = services;
+            Configuration = configuration;
         }
     }
 
@@ -113,5 +155,20 @@ namespace Rox
         }
     }
 
+
+    public static class RoxExtensions
+    {
+        public static IServiceCollection AddApplication<TModule>(this IServiceCollection services) where TModule: ModuleBase, new()
+        {
+            using (var provider = services.BuildServiceProvider())
+            {
+                var configuration = provider.GetService<IConfiguration>();
+                var application = new Application(services, configuration);
+                application.Init<TModule>(CancellationToken.None);
+                services.AddSingleton(application);
+            }
+            return services;
+        } 
+    }
     
 }
