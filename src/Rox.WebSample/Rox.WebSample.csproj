@@ -5,6 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="NLog.Web.AspNetCore" Version="4.9.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Rox.Modules.Hello\Rox.Modules.Hello.csproj" />
     <ProjectReference Include="..\Rox\Rox.csproj" />
   </ItemGroup>
 

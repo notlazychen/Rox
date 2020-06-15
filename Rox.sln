@@ -3,11 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30128.74
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rox", "src\Rox\Rox.csproj", "{33336F25-CCCA-4AB3-8D95-819793719DE4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rox", "src\Rox\Rox.csproj", "{33336F25-CCCA-4AB3-8D95-819793719DE4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rox.Sample", "src\Rox.Sample\Rox.Sample.csproj", "{0859E8FB-8058-4837-BF45-52E3922F8FB2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rox.Sample", "src\Rox.Sample\Rox.Sample.csproj", "{0859E8FB-8058-4837-BF45-52E3922F8FB2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rox.WebSample", "src\Rox.WebSample\Rox.WebSample.csproj", "{669D94A9-0014-4806-AED8-689ED876A45C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rox.WebSample", "src\Rox.WebSample\Rox.WebSample.csproj", "{669D94A9-0014-4806-AED8-689ED876A45C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rox.Modules.Hello", "Rox.Modules.Hello\Rox.Modules.Hello.csproj", "{2E172BE8-63CF-4166-B031-BEF2E7612B16}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{669D94A9-0014-4806-AED8-689ED876A45C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{669D94A9-0014-4806-AED8-689ED876A45C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{669D94A9-0014-4806-AED8-689ED876A45C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2E172BE8-63CF-4166-B031-BEF2E7612B16}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2E172BE8-63CF-4166-B031-BEF2E7612B16}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2E172BE8-63CF-4166-B031-BEF2E7612B16}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2E172BE8-63CF-4166-B031-BEF2E7612B16}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

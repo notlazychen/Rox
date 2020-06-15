@@ -20,28 +20,7 @@ namespace Rox.WebSample
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            var application = app.ApplicationServices.GetService<Application>();
-            var lifetime = app.ApplicationServices.GetService<IHostApplicationLifetime>();
-            application.Start(CancellationToken.None);
-            lifetime.ApplicationStopping.Register(()=> {
-                application.Stop(CancellationToken.None);
-            });
-
-
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-
-            app.UseRouting();
-
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapGet("/", async context =>
-                {
-                    await context.Response.WriteAsync("Hello World!");
-                });
-            });
+            app.UseApplication();
         }
     }
 }
