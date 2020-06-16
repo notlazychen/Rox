@@ -9,7 +9,22 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rox.Sample", "src\Rox.Sampl
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rox.WebSample", "src\Rox.WebSample\Rox.WebSample.csproj", "{669D94A9-0014-4806-AED8-689ED876A45C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rox.Modules.Hello", "Rox.Modules.Hello\Rox.Modules.Hello.csproj", "{2E172BE8-63CF-4166-B031-BEF2E7612B16}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rox.Modules.Hello", "src\Rox.Modules.Hello\Rox.Modules.Hello.csproj", "{2E172BE8-63CF-4166-B031-BEF2E7612B16}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rox.Extensions.AspNetCore", "src\Rox.Extensions.AspNetCore\Rox.Extensions.AspNetCore.csproj", "{F3F333E6-B318-40AE-98F1-4674A89195E6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rox.Modules.NLog", "src\Rox.Modules.NLog\Rox.Modules.NLog.csproj", "{171570DC-73AE-4B32-BC65-C4632A67DA65}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C4A54DCC-2A9C-41E5-955F-36D9E7A94424}"
+	ProjectSection(SolutionItems) = preProject
+		.gitattributes = .gitattributes
+		.gitignore = .gitignore
+		LICENSE = LICENSE
+		logo.png = logo.png
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rox.Extensions.Hosting", "src\Rox.Extensions.Hosting\Rox.Extensions.Hosting.csproj", "{A603BAA2-5EDF-402B-914F-6CC565B33199}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +48,18 @@ Global
 		{2E172BE8-63CF-4166-B031-BEF2E7612B16}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2E172BE8-63CF-4166-B031-BEF2E7612B16}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2E172BE8-63CF-4166-B031-BEF2E7612B16}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F3F333E6-B318-40AE-98F1-4674A89195E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F3F333E6-B318-40AE-98F1-4674A89195E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F3F333E6-B318-40AE-98F1-4674A89195E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F3F333E6-B318-40AE-98F1-4674A89195E6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{171570DC-73AE-4B32-BC65-C4632A67DA65}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{171570DC-73AE-4B32-BC65-C4632A67DA65}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{171570DC-73AE-4B32-BC65-C4632A67DA65}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{171570DC-73AE-4B32-BC65-C4632A67DA65}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A603BAA2-5EDF-402B-914F-6CC565B33199}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A603BAA2-5EDF-402B-914F-6CC565B33199}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A603BAA2-5EDF-402B-914F-6CC565B33199}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A603BAA2-5EDF-402B-914F-6CC565B33199}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

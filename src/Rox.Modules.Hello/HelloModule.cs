@@ -9,7 +9,6 @@ namespace Rox.Modules.Hello
     {
         public override Task ConfigureServices(ServicesConfigureContext context, CancellationToken cancellationToken)
         {
-            Console.WriteLine("配置模块: HelloModule");
             return base.ConfigureServices(context, cancellationToken);
         }
     }

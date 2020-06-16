@@ -7,6 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Reflection;
 using Microsoft.Extensions.Logging;
+using System.Linq;
 
 namespace Rox
 {
@@ -32,7 +33,7 @@ namespace Rox
                 var context = new ApplicationInitializationContext(provider);
                 foreach (var module in _modules.Values)
                 {
-                    _logger.LogTrace($"程序启动前预热模块: {module.GetType().Name}");
+                    //_logger.LogTrace($"程序启动前预热模块: {module.GetType().Name}");
                     tasks.Add(module.PreApplicationInitialization(context, cancellationToken));
                 }
                 Task.WhenAll(tasks).Wait();
@@ -40,7 +41,7 @@ namespace Rox
                 tasks.Clear();
                 foreach (var module in _modules.Values)
                 {
-                    _logger.LogTrace($"程序启动完初始化模块: {module.GetType().Name}");
+                    //_logger.LogTrace($"程序启动完初始化模块: {module.GetType().Name}");
                     tasks.Add(module.OnApplicationInitialization(context, cancellationToken));
                 }
 
@@ -52,13 +53,13 @@ namespace Rox
         {
             //反射注册modules
             var type = typeof(TModule);
-            _modules.Add(type.FullName, new TModule());
             FindDependencies(type);
 
+            _logger.LogInformation($"模块组: {string.Join(",", _modules.Values.Select(x=>x.GetType().Name))}");
             var tasks = new List<Task>(_modules.Count);
             foreach (var module in _modules.Values)
             {
-                _logger.LogTrace($"模块配置: {module.GetType().Name}");
+                //_logger.LogTrace($"模块配置: {module.GetType().Name}");
                 tasks.Add(module.ConfigureServices(new ServicesConfigureContext(_services, _configuration), cancellationToken));
             }
             Task.WhenAll(tasks).Wait();
@@ -76,11 +77,7 @@ namespace Rox
 
         private void FindDependencies(Type type)
         {
-            //if (_modules.ContainsKey(type.FullName))
-            {
-                //todo: 其实这里判断是不对的
-                //throw new InvalidOperationException($"Type {type.FullName} can't depends on type {type.FullName}, becasuse it's in dead cycle!");
-            }
+            //throw new InvalidOperationException($"Type {type.FullName} can't depends on type {type.FullName}, becasuse it's in dead cycle!");
             var attrs = type.GetCustomAttributes<DependencyAttribute>();
             foreach (var attr in attrs)
             {
@@ -88,11 +85,12 @@ namespace Rox
                 {
                     if (!_modules.ContainsKey(t.FullName))
                     {
-                        _modules.Add(t.FullName, Activator.CreateInstance(t) as ModuleBase);
+                        //_modules.Add(t.FullName, Activator.CreateInstance(t) as ModuleBase);
                         FindDependencies(t);
                     }
                 }
             }
+            _modules.Add(type.FullName, Activator.CreateInstance(type) as ModuleBase);
         }
     }
 
