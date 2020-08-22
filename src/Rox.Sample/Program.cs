@@ -9,11 +9,11 @@ namespace Rox.Sample
 {
     class Program
     {
-        static async System.Threading.Tasks.Task Main(string[] args)
+        static async Task Main(string[] args)
         {
             Console.WriteLine("Hello World!");
             var host = Host.CreateDefaultBuilder(args)
-                .ConfigureRox<AppModule>()
+                .UseRox<AppModule>()
                 .Build();
 
             await host.RunAsync();

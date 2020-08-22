@@ -14,4 +14,14 @@ namespace Rox
             ServiceProvider = serviceProvider;
         }
     }
+
+    public class ApplicationShutdownContext
+    {
+        public IServiceProvider ServiceProvider { get; private set; }
+
+        public ApplicationShutdownContext(IServiceProvider serviceProvider)
+        {
+            ServiceProvider = serviceProvider;
+        }
+    }
 }

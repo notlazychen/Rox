@@ -12,20 +12,16 @@ namespace Rox
 {
     public static class ApplicationHostingExtensions
     {
-        public static IHostBuilder ConfigureRox<TModule>(this IHostBuilder builder)
+        public static IHostBuilder UseRox<TModule>(this IHostBuilder builder)
             where TModule: ModuleBase, new()
         {
+            var application = new Application();
+            application.Init<TModule>(builder);
             builder.ConfigureServices((context, services) =>
             {
-                using (var provider = services.BuildServiceProvider())
-                {
-                    var configuration = provider.GetService<IConfiguration>();
-                    var loggerFactory = provider.GetService<ILoggerFactory>();
-                    var application = new Application(services, configuration, loggerFactory.CreateLogger<Application>());
-                    application.Init<TModule>(CancellationToken.None);
-                    services.AddSingleton(application);
-                    services.AddHostedService<ApplicationHostedService>();
-                }
+                services.AddSingleton(application);
+                services.AddHostedService<ApplicationHostedService>();
+                application.Configure(services, context.Configuration, CancellationToken.None);
             });
             return builder;
         }

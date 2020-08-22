@@ -5,11 +5,16 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Hosting;
 
 namespace Rox
 {
     public abstract class ModuleBase
     {
+        public virtual void ConfigureHost(IHostBuilder builder)
+        {
+        }
+
         public virtual Task ConfigureServices(ServicesConfigureContext context, CancellationToken cancellationToken)
         {
             return Task.CompletedTask;
@@ -25,7 +30,7 @@ namespace Rox
             return Task.CompletedTask;
         }
 
-        public virtual Task OnStopping(CancellationToken cancellationToken)
+        public virtual Task OnStopping(ApplicationShutdownContext context, CancellationToken cancellationToken)
         {
             return Task.CompletedTask;
         }

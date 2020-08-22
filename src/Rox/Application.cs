@@ -8,21 +8,18 @@ using System.Threading.Tasks;
 using System.Reflection;
 using Microsoft.Extensions.Logging;
 using System.Linq;
+using Microsoft.Extensions.Hosting;
 
 namespace Rox
 {
     public class Application
     {
         private readonly Dictionary<string, ModuleBase> _modules = new Dictionary<string, ModuleBase>();
-        private readonly IServiceCollection _services;
-        private readonly IConfiguration _configuration;
-        private readonly ILogger _logger;
+        private IServiceCollection _services;
+        private IConfiguration _configuration;
 
-        public Application(IServiceCollection services, IConfiguration configuration, ILogger<Application> logger)
+        public Application()
         {
-            _logger = logger;
-            _services = services;
-            _configuration = configuration;
         }
 
         public void Start(CancellationToken cancellationToken)
@@ -48,29 +45,39 @@ namespace Rox
                 Task.WhenAll(tasks).Wait();
             }
         }
-
-        public void Init<TModule>(CancellationToken cancellationToken) where TModule : ModuleBase, new()
+        public void Configure(IServiceCollection services, IConfiguration configuration, CancellationToken cancellationToken)
         {
-            //反射注册modules
-            var type = typeof(TModule);
-            FindDependencies(type);
+            _services = services;
+            _configuration = configuration;
 
-            _logger.LogInformation($"模块组: {string.Join(",", _modules.Values.Select(x=>x.GetType().Name))}");
             var tasks = new List<Task>(_modules.Count);
             foreach (var module in _modules.Values)
             {
-                //_logger.LogTrace($"模块配置: {module.GetType().Name}");
                 tasks.Add(module.ConfigureServices(new ServicesConfigureContext(_services, _configuration), cancellationToken));
             }
             Task.WhenAll(tasks).Wait();
         }
 
-        public void Stop(CancellationToken cancellationToken)
+        public void Init<TModule>(IHostBuilder builder) where TModule : ModuleBase, new()
         {
-            var tasks = new List<Task>(_modules.Count);
+            //反射注册modules
+            var type = typeof(TModule);
+            FindDependencies(type);
+            //_logger.LogInformation($"模块组: {string.Join(",", _modules.Values.Select(x=>x.GetType().Name))}");
             foreach (var module in _modules.Values)
             {
-                tasks.Add(module.OnStopping(cancellationToken));
+                //_logger.LogTrace($"模块配置: {module.GetType().Name}");
+                module.ConfigureHost(builder);
+            }
+        }
+
+        public void Stop(CancellationToken cancellationToken)
+        {
+            var tasks = new List<Task>(_modules.Count); 
+            using var sp = _services.BuildServiceProvider();
+            foreach (var module in _modules.Values)
+            {
+                tasks.Add(module.OnStopping(new ApplicationShutdownContext(sp), cancellationToken));
             }
             Task.WhenAll(tasks).Wait();
         }
