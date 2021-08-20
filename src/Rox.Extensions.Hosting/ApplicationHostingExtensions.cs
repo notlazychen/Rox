@@ -17,7 +17,7 @@ namespace Rox
         {
             var application = new Application();
             builder = application.Init<TModule>(builder);
-            builder.ConfigureServices(async (context, services) =>
+            builder.ConfigureServices((context, services) =>
             {
                 services.AddSingleton(application);
                 services.AddHostedService<ApplicationHostedService>();
