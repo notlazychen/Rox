@@ -4,7 +4,7 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <Description>名为模块, 实为生命周期代理用的拆分组件</Description>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>1.0.3</Version>
+    <Version>1.0.4</Version>
     <PackageProjectUrl>https://github.com/Roytin/Rox</PackageProjectUrl>
     <Authors>Roy</Authors>
     <Company>Rox</Company>

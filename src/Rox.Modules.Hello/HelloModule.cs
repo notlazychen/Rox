@@ -7,9 +7,9 @@ namespace Rox.Modules.Hello
 {
     public class HelloModule : ModuleBase
     {
-        public override Task ConfigureServices(ServicesConfigureContext context, CancellationToken cancellationToken)
+        public override void ConfigureServices(ServicesConfigureContext context)
         {
-            return base.ConfigureServices(context, cancellationToken);
+            base.ConfigureServices(context);
         }
     }
 }

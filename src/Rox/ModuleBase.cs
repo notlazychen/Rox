@@ -11,13 +11,13 @@ namespace Rox
 {
     public abstract class ModuleBase
     {
-        public virtual void ConfigureHost(IHostBuilder builder)
+        public virtual IHostBuilder ConfigureHost(IHostBuilder builder)
         {
+            return builder;
         }
 
-        public virtual Task ConfigureServices(ServicesConfigureContext context, CancellationToken cancellationToken)
+        public virtual void ConfigureServices(ServicesConfigureContext context)
         {
-            return Task.CompletedTask;
         }
 
         public virtual Task OnApplicationInitialization(ApplicationInitializationContext context, CancellationToken cancellationToken)

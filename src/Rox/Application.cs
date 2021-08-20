@@ -22,43 +22,36 @@ namespace Rox
         {
         }
 
-        public void Start(CancellationToken cancellationToken)
+        public async Task Start(CancellationToken cancellationToken)
         {
-            var tasks = new List<Task>(_modules.Count);
             using (var provider = _services.BuildServiceProvider())
             {
                 var context = new ApplicationInitializationContext(provider);
                 foreach (var module in _modules.Values)
                 {
                     //_logger.LogTrace($"程序启动前预热模块: {module.GetType().Name}");
-                    tasks.Add(module.PreApplicationInitialization(context, cancellationToken));
+                    await module.PreApplicationInitialization(context, cancellationToken);
                 }
-                Task.WhenAll(tasks).Wait();
-
-                tasks.Clear();
                 foreach (var module in _modules.Values)
                 {
                     //_logger.LogTrace($"程序启动完初始化模块: {module.GetType().Name}");
-                    tasks.Add(module.OnApplicationInitialization(context, cancellationToken));
+                    await module.OnApplicationInitialization(context, cancellationToken);
                 }
-
-                Task.WhenAll(tasks).Wait();
             }
         }
-        public void Configure(IServiceCollection services, IConfiguration configuration, CancellationToken cancellationToken)
+
+        public void Configure(IServiceCollection services, IConfiguration configuration)
         {
             _services = services;
             _configuration = configuration;
 
-            var tasks = new List<Task>(_modules.Count);
             foreach (var module in _modules.Values)
             {
-                tasks.Add(module.ConfigureServices(new ServicesConfigureContext(_services, _configuration), cancellationToken));
+                module.ConfigureServices(new ServicesConfigureContext(_services, _configuration));
             }
-            Task.WhenAll(tasks).Wait();
         }
 
-        public void Init<TModule>(IHostBuilder builder) where TModule : ModuleBase, new()
+        public IHostBuilder Init<TModule>(IHostBuilder builder) where TModule : ModuleBase, new()
         {
             //反射注册modules
             var type = typeof(TModule);
@@ -67,19 +60,18 @@ namespace Rox
             foreach (var module in _modules.Values)
             {
                 //_logger.LogTrace($"模块配置: {module.GetType().Name}");
-                module.ConfigureHost(builder);
+                builder = module.ConfigureHost(builder);
             }
+            return builder;
         }
 
-        public void Stop(CancellationToken cancellationToken)
+        public async Task Stop(CancellationToken cancellationToken)
         {
-            var tasks = new List<Task>(_modules.Count); 
             using var sp = _services.BuildServiceProvider();
             foreach (var module in _modules.Values)
             {
-                tasks.Add(module.OnStopping(new ApplicationShutdownContext(sp), cancellationToken));
+                await module.OnStopping(new ApplicationShutdownContext(sp), cancellationToken);
             }
-            Task.WhenAll(tasks).Wait();
         }
 
         private void FindDependencies(Type type)

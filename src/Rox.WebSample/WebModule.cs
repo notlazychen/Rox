@@ -41,10 +41,9 @@ namespace Rox.WebSample
             return Task.CompletedTask;
         }
 
-        public override Task ConfigureServices(ServicesConfigureContext context, CancellationToken cancellationToken)
+        public override void ConfigureServices(ServicesConfigureContext context)
         {
             context.Services.AddControllers();
-            return Task.CompletedTask;
         }
     }
 }

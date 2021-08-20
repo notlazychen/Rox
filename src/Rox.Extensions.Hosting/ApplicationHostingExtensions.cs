@@ -16,12 +16,12 @@ namespace Rox
             where TModule: ModuleBase, new()
         {
             var application = new Application();
-            application.Init<TModule>(builder);
-            builder.ConfigureServices((context, services) =>
+            builder = application.Init<TModule>(builder);
+            builder.ConfigureServices(async (context, services) =>
             {
                 services.AddSingleton(application);
                 services.AddHostedService<ApplicationHostedService>();
-                application.Configure(services, context.Configuration, CancellationToken.None);
+                application.Configure(services, context.Configuration);
             });
             return builder;
         }

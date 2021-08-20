@@ -9,7 +9,7 @@ namespace Rox.Modules.NLog
 {
     public class NLogModule : ModuleBase
     {
-        public override Task ConfigureServices(ServicesConfigureContext context, CancellationToken cancellationToken)
+        public override void ConfigureServices(ServicesConfigureContext context)
         {
             context.Services.AddLogging(loggingBuilder =>
             {
@@ -17,7 +17,7 @@ namespace Rox.Modules.NLog
                 loggingBuilder.SetMinimumLevel(LogLevel.Trace);
                 loggingBuilder.AddNLog(context.Configuration);
             });
-            return base.ConfigureServices(context, cancellationToken);
+            base.ConfigureServices(context);
         }
     }
 }
