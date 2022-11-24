@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <Description>名为模块, 实为生命周期代理用的拆分组件</Description>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Version>1.0.4</Version>

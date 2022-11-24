@@ -14,7 +14,8 @@ namespace Rox
 {
     public class Application
     {
-        private readonly Dictionary<string, ModuleBase> _modules = new Dictionary<string, ModuleBase>();
+        private readonly List<ModuleBase> _modules = new List<ModuleBase>();
+
         private IServiceCollection _services;
         private IConfiguration _configuration;
 
@@ -27,12 +28,12 @@ namespace Rox
             using (var provider = _services.BuildServiceProvider())
             {
                 var context = new ApplicationInitializationContext(provider);
-                foreach (var module in _modules.Values)
+                foreach (var module in _modules)
                 {
                     //_logger.LogTrace($"程序启动前预热模块: {module.GetType().Name}");
                     await module.PreApplicationInitialization(context, cancellationToken);
                 }
-                foreach (var module in _modules.Values)
+                foreach (var module in _modules)
                 {
                     //_logger.LogTrace($"程序启动完初始化模块: {module.GetType().Name}");
                     await module.OnApplicationInitialization(context, cancellationToken);
@@ -45,7 +46,7 @@ namespace Rox
             _services = services;
             _configuration = configuration;
 
-            foreach (var module in _modules.Values)
+            foreach (var module in _modules)
             {
                 module.ConfigureServices(new ServicesConfigureContext(_services, _configuration));
             }
@@ -56,8 +57,9 @@ namespace Rox
             //反射注册modules
             var type = typeof(TModule);
             FindDependencies(type);
+            //_modules.Reverse();//后进先出
             //_logger.LogInformation($"模块组: {string.Join(",", _modules.Values.Select(x=>x.GetType().Name))}");
-            foreach (var module in _modules.Values)
+            foreach (var module in _modules)
             {
                 //_logger.LogTrace($"模块配置: {module.GetType().Name}");
                 builder = module.ConfigureHost(builder);
@@ -68,7 +70,7 @@ namespace Rox
         public async Task Stop(CancellationToken cancellationToken)
         {
             using var sp = _services.BuildServiceProvider();
-            foreach (var module in _modules.Values)
+            foreach (var module in _modules)
             {
                 await module.OnStopping(new ApplicationShutdownContext(sp), cancellationToken);
             }
@@ -82,14 +84,13 @@ namespace Rox
             {
                 foreach (var t in attr.DenpendsOnTypes)
                 {
-                    if (!_modules.ContainsKey(t.FullName))
+                    if (!_modules.Any(x => x.GetType().FullName == t.FullName))
                     {
-                        //_modules.Add(t.FullName, Activator.CreateInstance(t) as ModuleBase);
                         FindDependencies(t);
                     }
                 }
             }
-            _modules.Add(type.FullName, Activator.CreateInstance(type) as ModuleBase);
+            _modules.Add(Activator.CreateInstance(type) as ModuleBase);
         }
     }
 

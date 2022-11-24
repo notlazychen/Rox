@@ -18,14 +18,12 @@ namespace Rox
 
         public Task StartAsync(CancellationToken cancellationToken)
         {
-            _application.Start(cancellationToken);
-            return Task.CompletedTask;
+            return _application.Start(cancellationToken);
         }
 
         public Task StopAsync(CancellationToken cancellationToken)
         {
-            _application.Stop(cancellationToken);
-            return Task.CompletedTask;
+            return _application.Stop(cancellationToken);
         }
     }
 }

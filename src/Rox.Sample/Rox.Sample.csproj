@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
@@ -11,8 +11,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Rox.Extensions.Hosting\Rox.Extensions.Hosting.csproj" />
-    <ProjectReference Include="..\Rox.Modules.Hello\Rox.Modules.Hello.csproj" />
-    <ProjectReference Include="..\Rox.Modules.NLog\Rox.Modules.NLog.csproj" />
   </ItemGroup>
 
 </Project>
