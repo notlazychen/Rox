@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Rox
+namespace Rox.Extensions.Hosting
 {
     public static class ApplicationHostingExtensions
     {

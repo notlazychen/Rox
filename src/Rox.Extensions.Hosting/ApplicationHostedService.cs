@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Rox
+namespace Rox.Extensions.Hosting
 {
-    public class ApplicationHostedService : IHostedService
+    internal class ApplicationHostedService : IHostedService
     {
         private readonly Application _application;
 

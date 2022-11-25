@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Hosting;
 using System.Threading.Tasks;
 using System.Threading;
+using Rox.Extensions.Hosting;
 
 namespace Rox.Sample
 {
@@ -25,7 +26,6 @@ namespace Rox.Sample
     public class AppModule: ModuleBase
     {
     }
-
 
     public class Hello1Module : ModuleBase
     {

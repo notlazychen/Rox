@@ -4,7 +4,7 @@
     <TargetFramework>net6.0</TargetFramework>
     <Description>名为模块, 实为生命周期代理用的拆分组件</Description>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>1.0.4</Version>
+    <Version>2.0.1</Version>
     <PackageProjectUrl>https://github.com/Roytin/Rox</PackageProjectUrl>
     <Authors>Roy</Authors>
     <Company>Rox</Company>
