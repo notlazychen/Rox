@@ -14,7 +14,10 @@ namespace Rox.Extensions.Hosting
 {
     internal class Application
     {
-        private readonly List<ModuleBase> _modules = new List<ModuleBase>();
+        //no matter what, it should be static.
+        private static readonly List<ModuleBase> _modules = new List<ModuleBase>();
+        //no matter what, it should be static too.
+        private static readonly HashSet<Assembly> _assemblies = new HashSet<Assembly>();
 
         private IServiceCollection _services;
         private IConfiguration _configuration;
@@ -38,36 +41,34 @@ namespace Rox.Extensions.Hosting
             return builder;
         }
 
-        public void Configure(IServiceCollection services, IConfiguration configuration)
+        internal void Configure(IServiceCollection services, IConfiguration configuration)
         {
             _services = services;
             _configuration = configuration;
 
             foreach (var module in _modules)
             {
-                module.ConfigureServices(new ServicesConfigureContext(_services, _configuration));
+                module.ConfigureServices(new ServicesConfigureContext(_services, _configuration, _assemblies));
             }
         }
 
-        public async Task Start(CancellationToken cancellationToken)
+        internal async Task Start(CancellationToken cancellationToken)
         {
             using (var provider = _services.BuildServiceProvider())
             {
                 var context = new ApplicationInitializationContext(provider);
                 foreach (var module in _modules)
                 {
-                    //_logger.LogTrace($"程序启动前预热模块: {module.GetType().Name}");
                     await module.PreApplicationInitialization(context, cancellationToken);
                 }
                 foreach (var module in _modules)
                 {
-                    //_logger.LogTrace($"程序启动完初始化模块: {module.GetType().Name}");
                     await module.OnApplicationInitialization(context, cancellationToken);
                 }
             }
         }
 
-        public async Task Stop(CancellationToken cancellationToken)
+        internal async Task Stop(CancellationToken cancellationToken)
         {
             using var sp = _services.BuildServiceProvider();
             foreach (var module in _modules)
@@ -85,7 +86,7 @@ namespace Rox.Extensions.Hosting
             else if(parents.Any(x=>x == type))
             {
                 StringBuilder sb = new StringBuilder();
-                sb.AppendLine("遇到循环依赖：");
+                sb.AppendLine("denpendences in dead cycle: ");
                 foreach (var p in parents)
                 {
                     if (p == type)
@@ -101,10 +102,10 @@ namespace Rox.Extensions.Hosting
                 }
                 sb.Append("*");
                 sb.Append(type.Name);
+                //throw new InvalidOperationException($"Type {type.FullName} can't depends on type {type.FullName}, becasuse it's in dead cycle!");
                 throw new StackOverflowException(sb.ToString());
             }
             parents.Push(type);
-            //throw new InvalidOperationException($"Type {type.FullName} can't depends on type {type.FullName}, becasuse it's in dead cycle!");
             var attrs = type.GetCustomAttributes<DependencyAttribute>();
             foreach (var attr in attrs)
             {
@@ -118,6 +119,10 @@ namespace Rox.Extensions.Hosting
             }
             parents.Pop();
             _modules.Add(Activator.CreateInstance(type) as ModuleBase);
+            if(!_assemblies.Contains(type.Assembly))
+            {
+                _assemblies.Add(type.Assembly);
+            }
         }
     }
 

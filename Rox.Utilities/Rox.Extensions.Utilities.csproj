@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<RootNamespace>Rox.Extensions</RootNamespace>
+		<Version>2.0.2</Version>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<PackageProjectUrl>https://github.com/Roytin/Rox</PackageProjectUrl>
+		<PackageIcon>logo.png</PackageIcon>
+		<Description>常用工具集</Description>
+	</PropertyGroup>
+	<ItemGroup>
+	  <None Include="..\logo.png" Link="logo.png">
+	    <PackagePath></PackagePath>
+	    <Pack>True</Pack>
+	  </None>
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\src\Rox\Rox.csproj" />
+	</ItemGroup>
+
+</Project>

@@ -6,10 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.Hosting" Version="3.1.5" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <ProjectReference Include="..\..\Rox.Utilities\Rox.Extensions.Utilities.csproj" />
     <ProjectReference Include="..\Rox.Extensions.Hosting\Rox.Extensions.Hosting.csproj" />
   </ItemGroup>
 

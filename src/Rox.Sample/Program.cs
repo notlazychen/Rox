@@ -3,6 +3,8 @@ using Microsoft.Extensions.Hosting;
 using System.Threading.Tasks;
 using System.Threading;
 using Rox.Extensions.Hosting;
+using Rox.Extensions.Mediate;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Rox.Sample
 {
@@ -10,18 +12,31 @@ namespace Rox.Sample
     {
         static async Task Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
-            var host = Host.CreateDefaultBuilder(args)
+            using var host = Host.CreateDefaultBuilder(args)
                 .UseRox<AppModule>()
                 .Build();
 
-            await host.RunAsync();
+                await host.StartAsync();
+
+            while (true)
+            {
+                string input = Console.ReadLine();
+                if(input == "q")
+                {
+                    break;
+                }
+                var mediator = host.Services.GetService<IMediator>();
+                await mediator.Send($"[{DateTime.Now:U}] hello world!", CancellationToken.None);
+            }
+            Console.WriteLine("byebye");
+            await host.StopAsync();
         }
     }
 
     [Dependency(
         typeof(FooModule),
-        typeof(Hello2Module)
+        typeof(Hello2Module),
+        typeof(MediateModule)
         )]
     public class AppModule: ModuleBase
     {
@@ -58,6 +73,28 @@ namespace Rox.Sample
         {
             Console.WriteLine("Foo");
             base.ConfigureServices(context);
+        }
+    }
+
+    public class StringCommand : ICommand<string>
+    {
+        private Guid _id = Guid.NewGuid();
+
+        public Task ExecuteAsync(string request, CancellationToken cancellationToken)
+        {
+            Console.WriteLine($"[{_id}] {request}");
+            return Task.CompletedTask;
+        }
+    }
+
+    public class StringCommand2 : ICommand<string>
+    {
+        private Guid _id = Guid.NewGuid();
+
+        public Task ExecuteAsync(string request, CancellationToken cancellationToken)
+        {
+            Console.WriteLine($"[{_id}] {request}");
+            return Task.CompletedTask;
         }
     }
 }
