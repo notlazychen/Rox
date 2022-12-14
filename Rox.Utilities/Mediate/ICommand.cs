@@ -7,8 +7,14 @@ namespace Rox.Extensions.Mediate
         Task ExecuteAsync(TRequest request, CancellationToken cancellationToken);
     }
 
-    public interface IMediator
-    {
-        Task Send<TRequest>(TRequest request, CancellationToken cancellationToken);
-    }
+    //public interface ICommand<T1, T2>
+    //{
+    //    Task ExecuteAsync(T1 arg1, T2 arg2, CancellationToken cancellationToken);
+    //}
+
+    //public interface ICommand<TRequest, TContext>
+    //{
+    //    TContext Context { get; set; }
+    //    Task ExecuteAsync(TRequest request, CancellationToken cancellationToken);
+    //}
 }

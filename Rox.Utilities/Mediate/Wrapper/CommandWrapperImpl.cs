@@ -6,12 +6,6 @@ namespace Rox.Extensions.Mediate
 {
     internal class CommandWrapperImpl<TRequest> : CommandWrapperBase
     {
-        //private ICommand<TRequest> _command;
-
-        //public CommandWrapperImpl(ICommand<TRequest> command)
-        //{
-        //    _command = command;
-        //}
         private IEnumerable<ICommand<TRequest>> _commands;
 
         public CommandWrapperImpl(IEnumerable<ICommand<TRequest>> commands)
@@ -27,4 +21,23 @@ namespace Rox.Extensions.Mediate
             }
         }
     }
+
+    //internal class CommandWrapperImpl<TRequest, TContext> : CommandWrapperBase<TContext>
+    //{
+    //    private IEnumerable<ICommand<TRequest, TContext>> _commands;
+
+    //    public CommandWrapperImpl(IEnumerable<ICommand<TRequest, TContext>> commands)
+    //    {
+    //        _commands = commands;
+    //    }
+
+    //    public override async Task ExecuteAsync(object request, TContext context, CancellationToken cancellationToken)
+    //    {
+    //        foreach (var command in _commands)
+    //        {
+    //            command.Context = context;
+    //            await command.ExecuteAsync((TRequest)request, cancellationToken);
+    //        }
+    //    }
+    //}
 }
