@@ -12,15 +12,10 @@ using System.Threading.Tasks;
 
 namespace Rox.Extensions.Autolink;
 
-
-internal static class EdgeChannelMessageQueue
-{
-    internal static readonly ConcurrentQueue<AutolinkPackage> Output = new ConcurrentQueue<AutolinkPackage>();
-    internal static readonly ConcurrentQueue<AutolinkPackage> Input = new ConcurrentQueue<AutolinkPackage>();
-}
-
 public class AutolinkClient : IHostedService
 {
+    private readonly ConcurrentQueue<AutolinkPackage> _output = new ConcurrentQueue<AutolinkPackage>();
+
     public bool IsConnected { get; internal set; }
     public bool IsAuth { get; internal set; }
 
@@ -81,7 +76,7 @@ public class AutolinkClient : IHostedService
     {
         package.Id = Interlocked.Increment(ref _id_increment);
         package.CreateAt = DateTimeOffset.Now.ToUnixTimeMilliseconds();
-        EdgeChannelMessageQueue.Output.Enqueue(package);
+        this._output.Enqueue(package);
     }
 
     CancellationTokenSource _tokenOutput = new CancellationTokenSource();
@@ -112,7 +107,7 @@ public class AutolinkClient : IHostedService
 
                 //消费输出队列
                 while (!_tokenOutput.IsCancellationRequested
-                    && EdgeChannelMessageQueue.Output.TryDequeue(out var pkg))
+                    && this._output.TryDequeue(out var pkg))
                 {
                     _logger.LogTrace($"【edge】提取包");
                     bool isSent;
