@@ -19,7 +19,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rox.Extensions.Hosting", "src\Rox.Extensions.Hosting\Rox.Extensions.Hosting.csproj", "{A603BAA2-5EDF-402B-914F-6CC565B33199}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rox.Extensions.Utilities", "Rox.Utilities\Rox.Extensions.Utilities.csproj", "{F077CF11-8CAD-407E-8804-F21FED14C6BB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rox.Extensions.Utilities", "src\Rox.Extensions.Utilities\Rox.Extensions.Utilities.csproj", "{F077CF11-8CAD-407E-8804-F21FED14C6BB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

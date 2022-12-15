@@ -12,8 +12,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Rox.Utilities\Rox.Extensions.Utilities.csproj" />
     <ProjectReference Include="..\Rox.Extensions.Hosting\Rox.Extensions.Hosting.csproj" />
+    <ProjectReference Include="..\Rox.Extensions.Utilities\Rox.Extensions.Utilities.csproj" />
   </ItemGroup>
 
   <ItemGroup>
