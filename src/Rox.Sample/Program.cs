@@ -17,6 +17,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.IO;
 using System.Text;
+using Rox.Extensions.BullsAndCows;
 
 namespace Rox.Sample;
 
@@ -25,8 +26,40 @@ class Program
     static async Task Main(string[] args)
     {
         //await TestMediator();
+        //await TestAutolink();
+        TestBullsAndCows();
+    }
 
-        await TestAutolink();
+    static void TestBullsAndCows()
+    {
+        var game = new Game();
+        Robot robot = new Robot();
+        robot.Start(game.Options);
+        while (true)
+        {
+            string input = Console.ReadLine();
+            if (input == "q")
+            {
+                break;
+            }
+            try
+            {
+                var answer = robot.GetNextAnswer();
+                var result = game.Guess(answer);
+                Console.WriteLine($"[{game.Round}] {game.RightAnswer} : {answer} -> {result}");
+                robot.Return(result);
+                if (result.A  == game.Options.Length)
+                {
+                    Console.WriteLine("you are right!");
+                    break;
+                }
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+        Console.WriteLine("byebye");
     }
 
     static async Task TestAutolink()

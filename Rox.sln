@@ -19,7 +19,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rox.Extensions.Hosting", "src\Rox.Extensions.Hosting\Rox.Extensions.Hosting.csproj", "{A603BAA2-5EDF-402B-914F-6CC565B33199}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rox.Extensions.Utilities", "src\Rox.Extensions.Utilities\Rox.Extensions.Utilities.csproj", "{F077CF11-8CAD-407E-8804-F21FED14C6BB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rox.Extensions.Utilities", "src\Rox.Extensions.Utilities\Rox.Extensions.Utilities.csproj", "{F077CF11-8CAD-407E-8804-F21FED14C6BB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rox.Extensions.Utilities.Tests", "Rox.Extensions.Utilities.Tests\Rox.Extensions.Utilities.Tests.csproj", "{582BDA20-1DA7-4C82-8943-28144ADC4EEC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -43,6 +45,10 @@ Global
 		{F077CF11-8CAD-407E-8804-F21FED14C6BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F077CF11-8CAD-407E-8804-F21FED14C6BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F077CF11-8CAD-407E-8804-F21FED14C6BB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{582BDA20-1DA7-4C82-8943-28144ADC4EEC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{582BDA20-1DA7-4C82-8943-28144ADC4EEC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{582BDA20-1DA7-4C82-8943-28144ADC4EEC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{582BDA20-1DA7-4C82-8943-28144ADC4EEC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
