@@ -5,7 +5,7 @@ VisualStudioVersion = 17.3.32929.385
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rox", "src\Rox\Rox.csproj", "{33336F25-CCCA-4AB3-8D95-819793719DE4}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rox.Sample", "src\Rox.Sample\Rox.Sample.csproj", "{0859E8FB-8058-4837-BF45-52E3922F8FB2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rox.Sample", "samples\Rox.Sample\Rox.Sample.csproj", "{0859E8FB-8058-4837-BF45-52E3922F8FB2}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C4A54DCC-2A9C-41E5-955F-36D9E7A94424}"
 	ProjectSection(SolutionItems) = preProject
@@ -21,7 +21,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rox.Extensions.Hosting", "s
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rox.Extensions.Utilities", "src\Rox.Extensions.Utilities\Rox.Extensions.Utilities.csproj", "{F077CF11-8CAD-407E-8804-F21FED14C6BB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rox.Extensions.Utilities.Tests", "Rox.Extensions.Utilities.Tests\Rox.Extensions.Utilities.Tests.csproj", "{582BDA20-1DA7-4C82-8943-28144ADC4EEC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rox.Extensions.Utilities.Tests", "tests\Rox.Extensions.Utilities.Tests\Rox.Extensions.Utilities.Tests.csproj", "{582BDA20-1DA7-4C82-8943-28144ADC4EEC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{68D960C4-B163-4B59-8FA0-E95B02FBEDED}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{4FC27FC9-F4EB-40A2-8167-40E50CAB276E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Barbecue", "samples\Barbecue\Barbecue.csproj", "{AF56D013-20DD-40FF-BBED-A439A0AEE894}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -49,9 +55,18 @@ Global
 		{582BDA20-1DA7-4C82-8943-28144ADC4EEC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{582BDA20-1DA7-4C82-8943-28144ADC4EEC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{582BDA20-1DA7-4C82-8943-28144ADC4EEC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AF56D013-20DD-40FF-BBED-A439A0AEE894}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AF56D013-20DD-40FF-BBED-A439A0AEE894}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AF56D013-20DD-40FF-BBED-A439A0AEE894}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AF56D013-20DD-40FF-BBED-A439A0AEE894}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{0859E8FB-8058-4837-BF45-52E3922F8FB2} = {68D960C4-B163-4B59-8FA0-E95B02FBEDED}
+		{582BDA20-1DA7-4C82-8943-28144ADC4EEC} = {4FC27FC9-F4EB-40A2-8167-40E50CAB276E}
+		{AF56D013-20DD-40FF-BBED-A439A0AEE894} = {68D960C4-B163-4B59-8FA0-E95B02FBEDED}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {BA136C07-8F44-43A4-984A-7A345B00F4E2}
