@@ -15,4 +15,11 @@ public struct Result
     {
         return $"{A}A{B}B";
     }
+
+    public static Result Parse(string result)
+    {
+        int a = int.Parse(result[0].ToString());
+        int b = int.Parse(result[2].ToString());
+        return new Result() { A= a, B = b }; 
+    }
 }

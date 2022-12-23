@@ -14,10 +14,11 @@ public class Robot
     public void Start(GameOptions options)
     {
         int max = (int)Math.Pow(10, options.Length);
+        int min = max / 10;
         _answers.Clear();
         _scores = Enumerable.Range(0, 10).ToDictionary(x => x.ToString()[0], x => 0);
-        _suggests = Enumerable.Range(0, max)
-            .Select(x => x.ToString("D" + options.Length))
+        _suggests = Enumerable.Range(min, max - min)
+            .Select(x => x.ToString())
             .Where(x => options.AllowDuplicate || !x.ContainsDuplicate())
             .ToList();
     }
@@ -36,6 +37,15 @@ public class Robot
             default:
                 do 
                 {
+                    if(_suggests.Count <= _answers.Count)
+                    {
+                        if (_suggests.All(s => _answers.Contains(s)))
+                        {
+                            answer = "no answer!";
+                            break;
+                        }
+                    }
+                    //todo: 优化的话，可以再出个评分系统，给每个位次每次数字出现的可能性打分。然后选取其中分数高的优先猜测。
                     answer = _suggests[RandomUtil.GetRandomNum(0, _suggests.Count)];
                 }
                 while(_answers.Contains(answer));

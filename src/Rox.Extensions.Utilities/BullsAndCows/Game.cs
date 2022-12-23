@@ -25,7 +25,13 @@ public class Game
         List<int> nbs = Enumerable.Range(0, 10).ToList();
         for(int i = 0; i< ans.Length; i++)
         {
-            var n = nbs[RandomUtil.GetRandomNum(0, nbs.Count)];
+            int n = nbs[RandomUtil.GetRandomNum(0, nbs.Count)];
+            if(i== 0 && n == 0 && !Options.AllowStartWithZero)
+            {
+                var tmps = nbs.ToList();
+                tmps.Remove(0);
+                n = tmps[RandomUtil.GetRandomNum(0, tmps.Count)];
+            }
             var c = n.ToString();
             ans[i] = c[0];
 

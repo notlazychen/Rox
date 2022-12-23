@@ -35,5 +35,31 @@ namespace Rox.Extensions.Utilities.Tests
                 Assert.Equal(result.ToString(), test[2]);
             }
         }
+
+
+        [Fact]
+        public void TestRobot()
+        {
+            //进行1000次猜谜游戏
+            int totalTime = 0;
+            for (int i = 0; i< 1000; i++)
+            {
+                var game = new Game();
+                var robot = new Robot();
+                robot.Start(game.Options);
+
+                do
+                {
+                    var result = game.Guess(robot.GetNextAnswer());
+                    robot.Return(result);
+                    if(result.A == game.Options.Length)
+                    {
+                        break;
+                    }
+                } while (true);
+                totalTime += game.Round;
+            }
+            Assert.True(totalTime < 1000 * 8);
+        }
     }
 }

@@ -17,10 +17,12 @@ public class GameOptions
     /// 是否允许重复
     /// </summary>
     public bool AllowDuplicate { get; private set; }
+    public bool AllowStartWithZero { get; private set; }
 
     public GameOptions()
     {
         Length = 4;
         AllowDuplicate = false;
+        AllowStartWithZero = false;
     }
 }

@@ -27,7 +27,42 @@ class Program
     {
         //await TestMediator();
         //await TestAutolink();
-        TestBullsAndCows();
+        //TestBullsAndCows();
+        TestBullsAndCowsRobot();
+    }
+
+    static void TestBullsAndCowsRobot()
+    {
+        var game = new Game();
+        Robot robot = new Robot();
+        robot.Start(game.Options);
+        int round = 0;
+        while (true)
+        {
+            round++;
+            var answer = robot.GetNextAnswer();
+            Console.WriteLine($"[{round}] {answer}");
+            string input = Console.ReadLine();
+            if (input == "q")
+            {
+                break;
+            }
+            try
+            {
+                Result result = Result.Parse(input);
+                robot.Return(result);
+                if (result.A == game.Options.Length)
+                {
+                    Console.WriteLine("you are right!");
+                    break;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+        Console.WriteLine("byebye");
     }
 
     static void TestBullsAndCows()
