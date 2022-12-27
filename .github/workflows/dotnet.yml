@@ -24,8 +24,8 @@ jobs:
       run: dotnet restore
     - name: Build
       run: dotnet publish -c Release --no-restore
-    - name: Test
-      run: dotnet test --no-build --verbosity normal
+#     - name: Test
+#       run: dotnet test --no-build --verbosity normal
     - name: Push generated package to GitHub registry
       run: |   
         dotnet nuget push src/*/bin/Release/Rox.*.nupkg -k ${{ secrets.NugetKey }} -s https://www.nuget.org/ --skip-duplicate
