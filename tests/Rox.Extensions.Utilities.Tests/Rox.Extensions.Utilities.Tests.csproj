@@ -22,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\src\Rox.Extensions.Utilities\Rox.Extensions.Utilities.csproj" />
+    <ProjectReference Include="..\..\src\Rox.Extensions.Utilities\Rox.Extensions.Utilities.csproj" />
   </ItemGroup>
 
 </Project>
