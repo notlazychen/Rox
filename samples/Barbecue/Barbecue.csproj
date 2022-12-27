@@ -14,4 +14,8 @@
     <ProjectReference Include="..\..\src\Rox.Extensions.Utilities\Rox.Extensions.Utilities.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\" />
+  </ItemGroup>
+
 </Project>

@@ -13,16 +13,24 @@ namespace Barbecue
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
             builder.Services.AddMemoryCache();
+            builder.Services.AddCors(options =>
+            {
+                options
+                    .AddDefaultPolicy(b => 
+                        b.AllowAnyHeader()
+                            .SetIsOriginAllowed(f => true));
+            });
 
             var app = builder.Build();
-
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
-
+            app.UseCors();
+            app.UseDefaultFiles(new DefaultFilesOptions { DefaultFileNames = new[] { "index.html" } });
+            app.UseStaticFiles();
             app.UseHttpsRedirection();
 
             app.UseAuthorization();

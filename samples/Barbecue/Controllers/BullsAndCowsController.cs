@@ -25,14 +25,15 @@ namespace Barbecue.Controllers
         //}
 
         [HttpPost]
-        public ActionResult Start()
+        public ActionResult<string> Start()
         {
             var game = new Game();
             _memoryCache.Set("Game_" + UserId, game, DateTimeOffset.Now.AddDays(1));
             var robot = new Robot();
             robot.Start(game.Options);
+            var answer = robot.GetNextAnswer();
             _memoryCache.Set("Robot_" + UserId, robot, DateTimeOffset.Now.AddDays(1));
-            return Ok();
+            return Ok(answer);
         }
 
         [HttpPost]
@@ -44,7 +45,7 @@ namespace Barbecue.Controllers
         }
 
         [HttpPost]
-        public ActionResult<Result> AskRobot([FromBody] ReplyRobotRequest req)
+        public ActionResult<string> AskRobot([FromBody] ReplyRobotRequest req)
         {
             var robot = _memoryCache.Get<Robot>("Robot_" + UserId);
             robot.Return(Result.Parse(req.Result));
@@ -52,7 +53,7 @@ namespace Barbecue.Controllers
             return Ok(answer);
         }
 
-        private string UserId { get { return this.HttpContext.Connection.RemoteIpAddress + ":" + this.HttpContext.Connection.RemotePort; } }
+        private string UserId { get { return this.HttpContext.Connection.RemoteIpAddress + ""/* + ":" + this.HttpContext.Connection.RemotePort*/; } }
     }
 
     public class ReplyRobotRequest
