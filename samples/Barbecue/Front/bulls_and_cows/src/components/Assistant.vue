@@ -1,3 +1,7 @@
+<script setup>
+import * as signalR from '@microsoft/signalr'
+</script>
+
 <template>
   <div class="flex-container">
     <ul>
@@ -57,8 +61,22 @@ export default {
       diss: [false, false, false, false, false, false, false, false, false, false],
     }
   },
-  mounted(){
-    this.start() 
+  async mounted() {
+    let app = this;
+    let connection = new signalR.HubConnectionBuilder()
+      .withUrl(this.$baseURL + "game")
+      .build();
+    connection.on("info", data => {
+      console.log(data);
+      app.consoleText += data;
+    });
+    connection.onclose((err) => {
+      console.log(err);
+      app.$alert('CONNECTION CLOSED!', 'ERROR');
+    })
+    await connection.start();
+    this.connection = connection;
+    this.start()
   },
   computed: {
     dissEnter() {
@@ -88,21 +106,21 @@ export default {
       } else if (key >= 0 && key < 10) {
         if (this.a == '_') {
           this.a = key;
-        } else{
+        } else {
           this.b = key;
         }
       }
     },
     async start() {
-      const { data: res } = await this.$http({
-        method: 'post',
-        url: '/BullsAndCows/Start'
-      })
+      // const { data: res } = await this.$http({
+      //   method: 'post',
+      //   url: '/BullsAndCows/Start'
+      // })
+      this.connection.invoke("startRobot");
       this.round = 0;
       this.a = '_';
       this.b = '_';
       this.round += 1;
-      this.consoleText = `[${this.round}]${res}`;
     },
     async guess(res) {
       this.consoleText += `->${res}<br>`;
@@ -111,16 +129,16 @@ export default {
         this.$alert('聪明小伙猜对了！', 'WIN');
         return;
       }
-      const { data: answer } = await this.$http({
-        method: 'post',
-        url: '/BullsAndCows/AskRobot',
-        data: {
-          result: res
-        },
-
-      })
+      this.connection.invoke("askRobot", res);
+      // const { data: answer } = await this.$http({
+      //   method: 'post',
+      //   url: '/BullsAndCows/AskRobot',
+      //   data: {
+      //     result: res
+      //   },
+      // })
       this.round += 1;
-      this.consoleText += `[${this.round}]${answer}`;
+      // this.consoleText += `[${this.round}]${answer}`;
       this.a = '_';
       this.b = '_';
     },

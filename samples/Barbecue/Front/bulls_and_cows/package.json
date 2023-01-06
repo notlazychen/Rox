@@ -1,5 +1,5 @@
 {
-  "name": "barbecue",
+  "name": "bulls_and_cows",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@element-plus/icons-vue": "^2.0.10",
+    "@microsoft/signalr": "^7.0.0",
     "axios": "^1.2.1",
     "element-plus": "^2.2.27",
     "node-sass": "^8.0.0",

@@ -1,6 +1,7 @@
 <script setup>
 import { result } from 'lodash';
 import { ref } from 'vue'
+import * as signalR from '@microsoft/signalr'
 
 defineProps({
   msg: String,
@@ -16,7 +17,7 @@ const count = ref(0)
         <el-header>
           {{ text }}
         </el-header>
-        <a href="#/assistant">试试问下聪明小伙</a>
+        <!-- <a href="#/assistant">试试问下聪明小伙</a> -->
         <el-main>
           <el-row>
             <el-button class="grid-content" @click="start()">重开</el-button>
@@ -78,7 +79,7 @@ export default {
       },
   },
   created() {
-    var app = this;
+    let app = this;
     document.onkeydown = function (e) {
       window.event.preventDefault()
       // let key = window.event.keyCode; // 获得keyCode
@@ -86,8 +87,26 @@ export default {
       app.touch(e.key);
     }
   },
-  mounted() {
-    this.start();
+  async mounted() {
+    let app = this;
+    let connection = new signalR.HubConnectionBuilder()
+      .withUrl(this.$baseURL + "game")
+      .build();
+    connection.on("info", data => {
+      console.log(data);
+      app.consoleText += data + `<br>`;
+      if (data.indexOf("4A0B") >= 0) {
+        app.consoleText += 'YOU ARE RIGHT!'
+        app.$alert('YOU ARE RIGHT!', 'WIN');
+      }
+    });
+    connection.onclose((err)=>{
+      console.log(err);
+      app.$alert('CONNECTION CLOSED!', 'ERROR');
+    })
+    await connection.start();
+    this.connection = connection;
+    await this.start();
   },
   methods: {
     touch(key) {
@@ -133,10 +152,11 @@ export default {
       return string.substring(0, index) + char + string.substring(index + 1);
     },
     async start() {
-      const { data: res } = await this.$http({
-        method: 'post',
-        url: '/BullsAndCows/Start'
-      })
+      // const { data: res } = await this.$http({
+      //   method: 'post',
+      //   url: '/BullsAndCows/Start'
+      // })
+      this.connection.invoke("start");
       this.round = 0;
       for(let i = 3 ; i>= 0; i--){
         this.text = this.setCharOnIndex(this.text, i, "_");
@@ -144,21 +164,16 @@ export default {
       this.consoleText = "";
     },
     async guess(number) {
-      const { data: res } = await this.$http({
-        method: 'post',
-        url: '/BullsAndCows/Guess',
-        data: {
-          guessNumber: number
-        },
-
-      })
+      // const { data: res } = await this.$http({
+      //   method: 'post',
+      //   url: '/BullsAndCows/Guess',
+      //   data: {
+      //     guessNumber: number
+      //   },
+      // })      
+      this.connection.invoke("guess", number);
+      
       this.round += 1;
-      if (res.a == 4) {
-        this.consoleText += 'YOU ARE RIGHT!'
-        this.$alert('YOU ARE RIGHT!', 'WIN');
-      } else {
-        this.consoleText += `[${this.round}]${number}->${res.a}A${res.b}B<br>`;
-      }
       for(let i = 4 ; i>= 0; i--){
         this.text = this.setCharOnIndex(this.text, i, "_");
       }

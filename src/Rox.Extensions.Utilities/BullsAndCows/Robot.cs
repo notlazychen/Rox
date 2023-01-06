@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Extensions.Options;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,20 +12,31 @@ public class Robot
     private List<string> _answers = new List<string>();
     private List<string> _suggests = new List<string>();
     private Dictionary<char, int> _scores = new Dictionary<char, int>();
-    public void Start(GameOptions options)
+    public GameOptions Options { get; private set; }
+    public int Round { get; private set; }
+
+    public Robot(GameOptions options = null)
     {
-        int max = (int)Math.Pow(10, options.Length);
+        Options = options ?? new GameOptions();
+        Start();
+    }
+
+    public void Start()
+    {
+        Round = 0;
+        int max = (int)Math.Pow(10, Options.Length);
         int min = max / 10;
         _answers.Clear();
         _scores = Enumerable.Range(0, 10).ToDictionary(x => x.ToString()[0], x => 0);
         _suggests = Enumerable.Range(min, max - min)
             .Select(x => x.ToString())
-            .Where(x => options.AllowDuplicate || !x.ContainsDuplicate())
+            .Where(x => Options.AllowDuplicate || !x.ContainsDuplicate())
             .ToList();
     }
 
     public string GetNextAnswer()
     {
+        Round++;
         string answer;
         switch (_answers.Count)
         {
@@ -95,6 +107,6 @@ public class Robot
                 return true;
             })
             .ToList();
-        Console.WriteLine($"剩余备选项：{_suggests.Count}");
+        //Console.WriteLine($"剩余备选项：{_suggests.Count}");
     }
 }
