@@ -46,7 +46,7 @@ namespace Rox.Extensions.Utilities.Tests
             {
                 var game = new Game();
                 var robot = new Robot();
-                robot.Start(game.Options);
+                robot.Start();
 
                 do
                 {

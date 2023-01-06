@@ -35,7 +35,7 @@ class Program
     {
         var game = new Game();
         Robot robot = new Robot();
-        robot.Start(game.Options);
+        robot.Start();
         int round = 0;
         while (true)
         {
@@ -69,7 +69,7 @@ class Program
     {
         var game = new Game();
         Robot robot = new Robot();
-        robot.Start(game.Options);
+        robot.Start();
         while (true)
         {
             string input = Console.ReadLine();
