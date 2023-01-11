@@ -22,7 +22,7 @@ import {
           </el-row>
           <el-row>
             <el-col :span="8">
-              <el-button :icon="ArrowLeft" @click="move('f')"/>
+              <el-button :icon="ArrowLeft" @click="move('l')"/>
             </el-col>
             <el-col :span="8" :offset="8">
               <el-button :icon="ArrowRight" @click="move('r')"/>
