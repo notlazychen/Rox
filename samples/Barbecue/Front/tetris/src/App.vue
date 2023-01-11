@@ -1,24 +1,11 @@
 <script setup>
-// import HelloWorld from './components/HelloWorld.vue'
-import LayoutPanel from './components/LayoutPanel.vue'
+import Lantern from './components/Lantern.vue'
+import Board from './components/Board.vue'
 </script>
 
 <template>
-  <!-- <HelloWorld msg="Vite + Vue" /> -->
-  
-  <div class="common-layout">
-    <el-container>
-      <el-header>Header</el-header>
-      <el-container>
-        <el-aside width="200px">Aside</el-aside>
-        <el-container>
-          <el-main><LayoutPanel /></el-main>
-          <el-footer>Footer</el-footer>
-        </el-container>
-      </el-container>
-    </el-container>
-  </div>
-
+  <Lantern />
+  <Board />
 </template>
 
 <style scoped>

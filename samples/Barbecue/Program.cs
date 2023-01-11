@@ -26,7 +26,7 @@ public class Program
             siloBuilder
                 .UseLocalhostClustering()
                 .AddMemoryGrainStorage("PubSubStore")
-                .AddMemoryStreams("barbecue");
+                .AddMemoryStreams("game");
         });
         var app = builder.Build();
         // Configure the HTTP request pipeline.
@@ -44,7 +44,8 @@ public class Program
         app.UseAuthenticationMiddleware();
         app.UseAuthorization();
 
-        app.MapHub<GameHub>("/game");
+        app.MapHub<BacHub>("/bac");
+        app.MapHub<TetrisHub>("/tetris");
         app.MapControllers();
 
         app.Run();

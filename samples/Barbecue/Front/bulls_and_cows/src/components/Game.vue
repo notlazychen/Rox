@@ -90,7 +90,7 @@ export default {
   async mounted() {
     let app = this;
     let connection = new signalR.HubConnectionBuilder()
-      .withUrl(this.$baseURL + "game")
+      .withUrl(this.$baseURL + "bac")
       .build();
     connection.on("info", data => {
       console.log(data);

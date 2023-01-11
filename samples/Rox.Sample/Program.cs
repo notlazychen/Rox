@@ -18,6 +18,7 @@ using Newtonsoft.Json.Linq;
 using System.IO;
 using System.Text;
 using Rox.Extensions.BullsAndCows;
+using Rox.Extensions.Tetris;
 
 namespace Rox.Sample;
 
@@ -28,8 +29,59 @@ class Program
         //await TestMediator();
         //await TestAutolink();
         //TestBullsAndCows();
-        TestBullsAndCowsRobot();
+        //TestBullsAndCowsRobot();
+        TestTetris();
     }
+
+    static void TestTetris()
+    {
+        var game = new GameBoard();
+        game.Build(10, 20);
+        int round = 0;
+        Timer timer = new Timer((o) => 
+        {
+            game.OneFrame();
+            Console.SetCursorPosition(0, 9);
+            var sb = game.Print();
+            Console.WriteLine($"[{game.Status}]" + sb);
+        }, null, 0, 500);
+        Console.WriteLine("--------");
+        Console.WriteLine($"↑");
+        Console.WriteLine($"↑");
+        Console.WriteLine($"↓");
+        Console.WriteLine($"←");
+        Console.WriteLine($"→");
+        Console.WriteLine("按Q结束");
+        Console.WriteLine("--------");
+        while (true)
+        {
+            var x = Console.ReadKey();
+            if (x.Key == ConsoleKey.Q)
+            {
+                break;
+            }
+            switch (x.Key)
+            {
+                case ConsoleKey.UpArrow:
+                    game.Move(Direction.Up);
+                    break;
+                case ConsoleKey.DownArrow:
+                    game.Move(Direction.Down);
+                    break;
+                case ConsoleKey.LeftArrow:
+                    game.Move(Direction.Left);
+                    break;
+                case ConsoleKey.RightArrow:
+                    game.Move(Direction.Right);
+                    break;
+            }
+            Console.SetCursorPosition(0, 9);
+            var sb = game.Print();
+            Console.WriteLine($"[{game.Status}]" + sb);
+        }
+        Console.WriteLine("byebye");
+    }
+
 
     static void TestBullsAndCowsRobot()
     {
